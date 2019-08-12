@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import 'babel-polyfill'
 import fastclick from 'fastclick'
+import './assets/stylus/index.styl'
 
 Vue.config.productionTip = false
 fastclick.attach(document.body)
