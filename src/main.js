@@ -5,7 +5,11 @@ import store from './store'
 import 'babel-polyfill'
 import fastclick from 'fastclick'
 import './assets/stylus/index.styl'
+import VueLazyLoad from 'vue-lazyload'
 
+Vue.use(VueLazyLoad,{
+  loading:require('assets/image/default.png')
+})
 Vue.config.productionTip = false
 fastclick.attach(document.body)
 

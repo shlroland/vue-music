@@ -1,52 +1,88 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length" class="slider-wrapper">
-        <div class="slider-content">
-          <slider ref="slider">
-            <div v-for="(item,index) in recommends" :key="index">
-              <a :href="item.linkUrl">
-                <img :src="item.picUrl">
-              </a>
-            </div>
-          </slider>
+    <scroll ref="scroll" class="recommend-content" :data="discList">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper">
+          <div class="slider-content">
+            <slider ref="slider">
+              <div v-for="(item,index) in recommends" :key="index">
+                <a :href="item.linkUrl">
+                  <img @load="loadImg" :src="item.picUrl">
+                </a>
+              </div>
+            </slider>
+          </div>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li class="item" v-for="(item,index) in discList" :key="index">
+              <div class="icon">
+                <img v-lazy="item.imgurl" width="60" height="60">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
-import { getRecommend } from '../../api/recommend'
-import { ERR_OK } from '../../api/config'
-import slider from '../../base/slider/slider'
+  import { getRecommend, getDiscList } from 'api/recommend'
+  import { ERR_OK } from 'api/config'
+  import slider from 'base/slider/slider'
+  import Scroll from 'base/scroll/scroll'
 
-export default {
-  data () {
-    return {
-      recommends: []
-    }
-  },
-  methods: {
-    _getRecommend () {
-      getRecommend().then(res => {
-        if (res.code === ERR_OK) {
-          this.recommends = res.data.slider
+  export default {
+    data () {
+      return {
+        recommends: [],
+        discList: []
+      }
+    },
+    methods: {
+      _getRecommend () {
+        getRecommend().then(res => {
+          if (res.code === ERR_OK) {
+            this.recommends = res.data.slider
+          }
+        })
+      },
+      _getDicsList () {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            this.discList = res.data.list
+            console.log(this.discList)
+          }
+        })
+      },
+      loadImg () {
+        if (!this.checkLoaded) {
+          this.checkLoaded = true
+          setTimeout(() => {
+            this.$refs.scroll.refresh()
+          }, 20)
         }
-      })
+      }
+    },
+    components: {
+      slider,
+      Scroll
+    },
+    created () {
+      this._getRecommend()
+      this._getDicsList()
     }
-  },
-  components: {
-    slider
-  },
-  created () {
-    this._getRecommend()
   }
-}
 </script>
 
 <style lang="stylus" scoped>
-  @import "../../assets/stylus/variable"
+  @import "~assets/stylus/variable"
   .recommend
     position: fixed
     width: 100%
