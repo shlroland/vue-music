@@ -11,7 +11,7 @@
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.tilte}}</h2>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li v-for="item in group.items" class="list-group-item" @click="selectItem(item)">
             <img v-lazy="item.avatar" class="avatar"/>
             <span class="name">{{item.name}}</span>
           </li>
@@ -89,6 +89,9 @@
       Loading
     },
     methods: {
+      selectItem (item) {
+        this.$emit('select', item)
+      },
       onShortcutTouchStart (e) {
         let anchorIndex = getData(e.target, 'index')
         let firstTouch = e.touches[0]
@@ -152,7 +155,7 @@
             return
           }
         }
-        // 当滚动到底部时，且-new Y大雨最后元素的最大高度
+        // 当滚动到底部时，且-new Y大于最后元素的最大高度
         this.currentIndex = listHeight.length - 2
       },
       diff (newVal) {
