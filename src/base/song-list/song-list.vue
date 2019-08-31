@@ -30,11 +30,11 @@
           }
     },
     methods: {
-      selectItem(item, index) {
+      selectItem (item, index) {
         this.$emit('select', item, index)
       },
       getDesc (song) {
-        return `${song.singer}.${song.album}`
+        return `${song.singer}·${song.album}`
       },
       getRankCls (index) {
         if (index <= 2) {

@@ -1,4 +1,4 @@
-// import { playMode } from 'common/js/config'
+import { playMode } from 'assets/js/config'
 // import { loadSearch } from 'common/js/cache'
 
 const state = {
@@ -7,7 +7,7 @@ const state = {
   fullScreen: false,
   playlist: [],
   sequenceList: [],
-  // mode: playMode.sequence,
+  mode: playMode.sequence,
   currentIndex: -1,
   disc: {},
   topList: {},

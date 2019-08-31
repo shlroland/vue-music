@@ -1,4 +1,4 @@
-export function addClass(el, className) {
+export function addClass (el, className) {
   if (hasClass(el, className)) {
     return
   }
@@ -7,12 +7,12 @@ export function addClass(el, className) {
   el.className = newClass.join(' ')
 }
 
-function hasClass(el, className) {
+function hasClass (el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
 
-export function getData(el, name, val) {
+export function getData (el, name, val) {
   const prefix = 'data-'
   name = prefix + name
   console.log(name)
@@ -40,7 +40,7 @@ let vendor = (() => {
   }
 })()
 
-export function prefixStyle(style) {
+export function prefixStyle (style) {
   if (vendor === false) {
     return false
   }

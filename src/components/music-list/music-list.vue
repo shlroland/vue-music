@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div ref="playBtn" v-show="songs.length>0" class="play">
+        <div ref="playBtn" v-show="songs.length>0" class="play" @click="random">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -21,11 +21,11 @@
             :probe-type="probeType"
             @scroll="scroll">
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list @select="selectItem" :songs="songs"></song-list>
       </div>
-            <div v-show="!songs.length" class="loading-container">
-              <loading></loading>
-            </div>
+      <div v-show="!songs.length" class="loading-container">
+        <loading></loading>
+      </div>
     </scroll>
   </div>
 </template>
@@ -33,7 +33,9 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import SongList from 'base/song-list/song-list'
-  import { prefixStyle } from '../../assets/js/dom'
+  import {prefixStyle} from '../../assets/js/dom'
+  import {mapActions} from 'vuex'
+  import {playlistMixin} from "../../assets/js/mixin";
 
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -41,7 +43,8 @@
 
   export default {
     name: 'music-list',
-    data () {
+    mixins: [playlistMixin],
+    data() {
       return {
         scrollY: 0
       }
@@ -53,7 +56,7 @@
       },
       songs: {
         type: Array,
-        default () {
+        default() {
           return []
         }
       },
@@ -67,25 +70,44 @@
       Loading,
       SongList
     },
-    created () {
+    created() {
       this.probeType = 3
       this.listenScroll = true
     },
-    mounted () {
+    mounted() {
       this.imageHeight = this.$refs.bgImage.clientHeight
       this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
     },
     methods: {
-      back () {
+      back() {
         this.$router.back()
       },
-      scroll (pos) {
+      scroll(pos) {
         this.scrollY = pos.y
-      }
+      },
+      selectItem(item, index) {
+        this.selectPlay({
+          list: this.songs,
+          index: index
+        })
+      },
+      random() {
+        this.randomPlay({
+          list: this.songs
+        })
+      },
+      handlePlayList(playlist) {
+        this.$refs.list.$el.style.bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.list.refresh()
+      },
+      ...mapActions([
+        'selectPlay',
+        'randomPlay'
+      ])
     },
     watch: {
-      scrollY (newY) {
+      scrollY(newY) {
         let translateY = Math.max(this.minTranslateY, newY)
         let zIndex = 0
         let scale = 1
@@ -95,7 +117,7 @@
           scale = 1 + percent
           zIndex = 10
         } else {
-          blur = Math.min(20,percent * 20)
+          blur = Math.min(20, percent * 20)
         }
         this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
         this.$refs.filter.style[backdrop] = `blur(${blur}px)`
@@ -115,7 +137,7 @@
 
     },
     computed: {
-      bgStyle () {
+      bgStyle() {
         return `background-image: url(${this.bgImage})`
       }
     }

@@ -1,45 +1,51 @@
 <template>
   <div class="singer" ref="singer">
-    <listview @select="selectSinger" :data="singers"></listview>
+    <listview ref="list" @select="selectSinger" :data="singers"></listview>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import { ERR_OK } from '../../api/config'
-  import { getSingerList } from '../../api/singer'
+  import {ERR_OK} from '../../api/config'
+  import {getSingerList} from '../../api/singer'
   import Singer from 'assets/js/singer'
   import Listview from 'base/listview/listview'
-  import { mapMutations } from 'vuex'
+  import {mapMutations} from 'vuex'
+  import {playlistMixin} from "../../assets/js/mixin";
 
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门'
 
   export default {
     name: 'singer',
+    mixins: [playlistMixin],
     components: {
       Listview
     },
-    data () {
+    data() {
       return {
         singers: []
       }
     },
-    created () {
+    created() {
       this._getSingerList()
     },
     methods: {
       ...mapMutations({
         setSinger: 'SET_SINGER'
       }),
-      selectSinger (singer) {
+      handlePlayList(playlist) {
+        this.$refs.singer.style.bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.list.refresh()
+      },
+      selectSinger(singer) {
         console.log(singer)
         this.$router.push({
           path: `/singer/${singer.id}`
         })
-          this.setSinger(singer)
+        this.setSinger(singer)
       },
-      _getSingerList () {
+      _getSingerList() {
         getSingerList().then(res => {
           if (res.code === ERR_OK) {
             this.singers = this._normalizeSinger(res.data.list)
@@ -47,7 +53,7 @@
           }
         })
       },
-      _normalizeSinger (list) {
+      _normalizeSinger(list) {
         let map = {
           hot: {
             tilte: HOT_NAME,
