@@ -98,8 +98,6 @@ export default {
     _onScrollEnd () {
       let pageIndeX = this.slider.getCurrentPage().pageX
       this.currentPageIndex = pageIndeX
-      console.log(123)
-      console.log(this.currentPageIndex)
       if (this.autoPlay) {
         this._play()
       }

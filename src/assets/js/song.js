@@ -1,5 +1,5 @@
 import { ERR_OK } from 'api/config'
-import { getSongUrl,getLyric } from '../../api/song'
+import { getSongUrl, getLyric } from '../../api/song'
 import { Base64 } from 'js-base64'
 
 export default class Song {
@@ -61,6 +61,7 @@ export function isValidMusic (musicData) {
 }
 
 export function processSongsUrl (songs) {
+  console.log(songs)
   if (!songs.length) {
     return Promise.resolve(songs)
   }

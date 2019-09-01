@@ -33,9 +33,9 @@
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import SongList from 'base/song-list/song-list'
-  import {prefixStyle} from '../../assets/js/dom'
-  import {mapActions} from 'vuex'
-  import {playlistMixin} from "../../assets/js/mixin";
+  import { prefixStyle } from '../../assets/js/dom'
+  import { mapActions } from 'vuex'
+  import { playlistMixin } from '../../assets/js/mixin'
 
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -44,7 +44,7 @@
   export default {
     name: 'music-list',
     mixins: [playlistMixin],
-    data() {
+    data () {
       return {
         scrollY: 0
       }
@@ -56,7 +56,7 @@
       },
       songs: {
         type: Array,
-        default() {
+        default () {
           return []
         }
       },
@@ -70,34 +70,34 @@
       Loading,
       SongList
     },
-    created() {
+    created () {
       this.probeType = 3
       this.listenScroll = true
     },
-    mounted() {
+    mounted () {
       this.imageHeight = this.$refs.bgImage.clientHeight
       this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
     },
     methods: {
-      back() {
+      back () {
         this.$router.back()
       },
-      scroll(pos) {
+      scroll (pos) {
         this.scrollY = pos.y
       },
-      selectItem(item, index) {
+      selectItem (item, index) {
         this.selectPlay({
           list: this.songs,
           index: index
         })
       },
-      random() {
+      random () {
         this.randomPlay({
           list: this.songs
         })
       },
-      handlePlayList(playlist) {
+      handlePlayList (playlist) {
         this.$refs.list.$el.style.bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.list.refresh()
       },
@@ -107,7 +107,7 @@
       ])
     },
     watch: {
-      scrollY(newY) {
+      scrollY (newY) {
         let translateY = Math.max(this.minTranslateY, newY)
         let zIndex = 0
         let scale = 1
@@ -137,7 +137,7 @@
 
     },
     computed: {
-      bgStyle() {
+      bgStyle () {
         return `background-image: url(${this.bgImage})`
       }
     }
