@@ -54,6 +54,7 @@
 
 <style lang="stylus" scoped>
   @import "~assets/stylus/variable"
+  @import "~assets/stylus/mixin"
   .song-list
     .item
       display: flex
