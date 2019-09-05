@@ -44,6 +44,14 @@
       direction: {
         type: String,
         default: DIRECTION_V
+      },
+      pullup: {
+        type: Boolean,
+        default: false
+      },
+      beforeScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted () {
@@ -67,6 +75,18 @@
             me.$emit('scroll', pos)
           })
         }
+        if (this.pullup) {
+          this.scroll.on('scrollEnd',()=>{
+            if (this.scroll.y <= this.scroll.maxScrollY + 50) {
+              this.$emit('scrollToend')
+            }
+          })
+        }
+        if (this.beforeScroll) {
+          this.scroll.on('beforeScrollStart',()=>{
+            this.$emit('beforeScroll')
+          })
+        }
       },
       enable () {
         this.scroll && this.scroll.enable()
@@ -82,7 +102,7 @@
       },
       scrollToElement () {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
-      }
+      },
     },
     watch: {
       data () {

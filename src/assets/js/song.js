@@ -61,7 +61,6 @@ export function isValidMusic (musicData) {
 }
 
 export function processSongsUrl (songs) {
-  console.log(songs)
   if (!songs.length) {
     return Promise.resolve(songs)
   }
