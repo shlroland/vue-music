@@ -76,14 +76,14 @@
           })
         }
         if (this.pullup) {
-          this.scroll.on('scrollEnd',()=>{
+          this.scroll.on('scrollEnd', () => {
             if (this.scroll.y <= this.scroll.maxScrollY + 50) {
               this.$emit('scrollToend')
             }
           })
         }
         if (this.beforeScroll) {
-          this.scroll.on('beforeScrollStart',()=>{
+          this.scroll.on('beforeScrollStart', () => {
             this.$emit('beforeScroll')
           })
         }
@@ -102,7 +102,7 @@
       },
       scrollToElement () {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
-      },
+      }
     },
     watch: {
       data () {

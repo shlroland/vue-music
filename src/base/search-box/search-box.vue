@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import {debounce} from "../../assets/js/util";
+  import { debounce } from '../../assets/js/util'
 
   export default {
     name: 'search-box',
@@ -17,26 +17,26 @@
         default: '搜索歌曲、歌手'
       }
     },
-    data() {
+    data () {
       return {
         query: ''
       }
     },
     methods: {
-      clear() {
+      clear () {
         this.query = ''
       },
-      setQuery(query) {
+      setQuery (query) {
         this.query = query
       },
-      blur(){
+      blur () {
         this.$refs.query.blur()
       }
     },
-    created() {
-      this.$watch('query',debounce((newQuery)=>{
-        this.$emit('query',newQuery)
-      },200))
+    created () {
+      this.$watch('query', debounce((newQuery) => {
+        this.$emit('query', newQuery)
+      }, 200))
     }
   }
 </script>

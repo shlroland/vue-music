@@ -1,3 +1,5 @@
+import Song from 'assets/js/song'
+
 export const singer = state => state.singer
 
 export const playing = state => state.playing

@@ -4,7 +4,7 @@
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
     <div ref="shortcutWrapper" class="shortcut-wrapper" v-show="!query">
-      <scroll ref="shortcut" class="shortcut" :data="shortcut">
+      <scroll :refreshdelay="refreshDelay" ref="shortcut" class="shortcut" :data="shortcut">
         <div>
           <div class="hot-key">
             <h1 class="title">热门搜索</h1>
@@ -36,22 +36,20 @@
 
 <script>
   import SearchBox from 'base/search-box/search-box'
-  import {getHotKey} from '../../api/search'
-  import {ERR_OK} from '../../api/config'
+  import { getHotKey } from '../../api/search'
+  import { ERR_OK } from '../../api/config'
   import Suggest from 'components/suggest/suggest'
   import SearchList from 'base/search-list/search-list'
   import Confirm from 'base/confirm/confirm'
   import Scroll from 'base/scroll/scroll'
-  import {playlistMixin} from "../../assets/js/mixin";
-  import {mapActions, mapGetters} from 'vuex'
+  import { playlistMixin, searchMixin } from '../../assets/js/mixin'
 
   export default {
     name: 'search',
-    mixins: [playlistMixin],
-    data() {
+    mixins: [playlistMixin, searchMixin],
+    data () {
       return {
-        hotKey: [],
-        query: ''
+        hotKey: []
       }
     },
     components: {
@@ -61,62 +59,40 @@
       Confirm,
       Scroll
     },
-    created() {
+    created () {
       this._getHotKey()
     },
     computed: {
-      shortcut(){
+      shortcut () {
         return this.hotKey.concat(this.searchHistory)
-      },
-      ...mapGetters([
-        'searchHistory'
-      ])
+      }
     },
     methods: {
-      _getHotKey() {
+      _getHotKey () {
         getHotKey().then((res) => {
           if (res.code === ERR_OK) {
             this.hotKey = res.data.hotkey.slice(0, 10)
           }
         })
       },
-      addQuery(query) {
-        console.log(this.$refs.searchBox)
-        this.$refs.searchBox.setQuery(query)
-      },
-      onQueryChange(query) {
-        // 处理带空格的情况
-        this.query = query.trim()
-      },
-      blurInput() {
-        this.$refs.searchBox.blur()
-      },
-      saveSearch() {
-        this.saveSearchHistory(this.query)
-      },
-      showConfirm() {
+      showConfirm () {
         this.$refs.confirm.show()
       },
-      handlePlayList(playlist){
+      handlePlayList (playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.searchResult.style.bottom = bottom
         this.$refs.suggest.refresh()
 
         this.$refs.shortcutWrapper.style.bottom = bottom
         this.$refs.shortcut.refresh()
-      },
-      ...mapActions([
-        'saveSearchHistory',
-        'deleteSearchHistory',
-        'clearSearchHistory'
-      ])
+      }
     },
     watch: {
-      query(newQuery){
+      query (newQuery) {
         if (!newQuery) {
-          setTimeout(()=>{
+          setTimeout(() => {
             this.$refs.shortcut.refresh()
-          },20)
+          }, 20)
         }
       }
     }

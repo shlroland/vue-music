@@ -32,7 +32,7 @@
   import Loading from 'base/loading/loading'
   import Singer from 'assets/js/singer'
   import NoResult from 'base/no-result/no-result'
-  import { mapMutations,mapActions } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
   const TYPE_SINGER = 'singer'
   const perpage = 30
   export default {
@@ -40,7 +40,7 @@
     components: {
       Scroll,
       Loading,
-      NoResult,
+      NoResult
     },
     props: {
       query: {
@@ -132,7 +132,7 @@
         })
         return ret
       },
-      listScroll(){
+      listScroll () {
         this.$emit('listScroll')
       },
       _checkMore (data) {
@@ -148,7 +148,7 @@
           return `${item.name}-${item.singer}`
         }
       },
-      refresh(){
+      refresh () {
         this.$refs.suggest.refresh()
       },
       ...mapMutations({

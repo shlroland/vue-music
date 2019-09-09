@@ -16,7 +16,7 @@
 
 <script>
   export default {
-    name: "confirm",
+    name: 'confirm',
     props: {
       text: {
         type: String,
@@ -31,23 +31,23 @@
         default: '取消'
       }
     },
-    data() {
+    data () {
       return {
         showFlag: false
       }
     },
     methods: {
-      show() {
+      show () {
         this.showFlag = true
       },
-      hide() {
+      hide () {
         this.showFlag = false
       },
-      cancel() {
+      cancel () {
         this.hide()
         this.$emit('cancel')
       },
-      confirm() {
+      confirm () {
         this.hide()
         this.$emit('confirm')
       }

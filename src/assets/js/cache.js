@@ -3,7 +3,10 @@ import storage from 'good-storage'
 const SEARCH_KEY = '__search__'
 const SEARCH_MAX_LENGTH = 15
 
-function insetArray(arr, val, compare, maxLen) {
+const PLAY_KEY = '__play__'
+const PLAY_MAX_LEN = 200
+
+function insetArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
     return
@@ -24,28 +27,42 @@ function deleteFromArray (arr, compare) {
   }
 }
 
-export function saveSearch(query) {
+export function saveSearch (query) {
   let searches = storage.get(SEARCH_KEY, [])
   insetArray(searches, query, (item) => {
     return item === query
   }, SEARCH_MAX_LENGTH)
-  storage.set(SEARCH_KEY,searches)
+  storage.set(SEARCH_KEY, searches)
   return searches
 }
 
-export function deleteSearch(query) {
-  let searches = storage.get(SEARCH_KEY,[])
-  deleteFromArray(searches,(item)=>{
+export function deleteSearch (query) {
+  let searches = storage.get(SEARCH_KEY, [])
+  deleteFromArray(searches, (item) => {
     return item === query
   })
-  storage.set(SEARCH_KEY,searches)
+  storage.set(SEARCH_KEY, searches)
   return searches
 }
-export function clearSearch() {
+export function clearSearch () {
   storage.remove(SEARCH_KEY)
   return []
 }
 
-export function loadSearch() {
-  return storage.get(SEARCH_KEY,[])
+export function loadSearch () {
+  return storage.get(SEARCH_KEY, [])
+}
+
+export function savePlay(song) {
+  let songs = storage.get(PLAY_KEY, [])
+  insetArray(songs, song, (item) => {
+    console.log(item,song)
+    return song.id === item.id
+  }, PLAY_MAX_LEN)
+  storage.set(PLAY_KEY, songs)
+  return songs
+}
+
+export function loadPlay () {
+  return storage.get(PLAY_KEY, [])
 }
