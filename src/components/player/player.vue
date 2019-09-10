@@ -320,6 +320,9 @@
       },
       getLyric () {
         this.currentSong.getLyric().then((lyric) => {
+          if (  this.currentSong.lyric !== lyric) {
+            return
+          }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             this.currentLyric.play()
@@ -447,10 +450,8 @@
         this.$refs.audio.play()
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
-          this.timer = setTimeout(() => {
             this.songReady = true
           }, 5000)
-        })
         this.getLyric()
       },
       playing (newPlaying) {
