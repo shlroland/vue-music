@@ -94,7 +94,7 @@ export const playerMixin = {
 }
 
 export const searchMixin = {
-  data(){
+  data () {
     return {
       query: '',
       refreshDelay: 120

@@ -9,18 +9,18 @@
 
 <script>
   export default {
-    name: "switches",
+    name: 'switches',
     props: {
       switches: {
         type: Array,
-        default() {
-          return [];
+        default () {
+          return []
         }
       },
       currentIndex: {
         type: Number,
-        default() {
-          return 0;
+        default () {
+          return 0
         }
       }
     },
@@ -54,4 +54,3 @@
         background: $color-highlight-background
         color: $color-text
 </style>
-

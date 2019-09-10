@@ -44,10 +44,10 @@
 <script>
   import SearchBox from 'base/search-box/search-box'
   import Suggest from 'components/suggest/suggest'
-  import {searchMixin} from '../../assets/js/mixin'
+  import { searchMixin } from '../../assets/js/mixin'
   import Switches from 'base/switches/switches'
   import Scroll from 'base/scroll/scroll'
-  import {mapGetters,mapActions} from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import SongList from 'base/song-list/song-list'
   import SearchList from 'base/search-list/search-list'
   import TopTip from 'base/top-tip/top-tip'
@@ -64,7 +64,7 @@
       SearchList,
       TopTip
     },
-    data() {
+    data () {
       return {
         showFlag: false,
         showSinger: false,
@@ -80,23 +80,23 @@
       }
     },
     methods: {
-      show() {
+      show () {
         this.showFlag = true
         this.refreshList()
       },
-      hide() {
+      hide () {
         this.showFlag = false
       },
-      switchItem(index) {
+      switchItem (index) {
         this.currentIndex = index
       },
-      selectSong(song,index){
-        if (index !== 0){
+      selectSong (song, index) {
+        if (index !== 0) {
           this.insertSong(new Song(song))
           this.$refs.topTip.show()
         }
       },
-      selectSuggest() {
+      selectSuggest () {
         this.saveSearch()
       },
       refreshList () {

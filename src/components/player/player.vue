@@ -73,7 +73,7 @@
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon" @click="toggleFavorite(currentSong)" :class="favoriteIcon"></i>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations,mapActions } from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
   import animations from 'create-keyframe-animation'
   import { prefixStyle } from '../../assets/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
@@ -161,7 +161,7 @@
       ...mapGetters([
         'fullScreen',
         'playing',
-        'currentIndex',
+        'currentIndex'
       ])
     },
     created () {

@@ -16,8 +16,8 @@
             <li :key="item.id" ref="listItem" class="item" v-for="(item,index) in sequenceList" @click="selectItem(item,index)">
               <i class="current" :class="getCurrentIcon(item)"></i>
               <span class="text">{{item.name}}</span>
-              <span class="like">
-                <i></i>
+              <span @click.stop="toggleFavorite(item)" class="like">
+                <i :class="getFavoriteIcon(item)"></i>
               </span>
               <span class="delete" @click.stop="deleteOne(item)">
                 <i class="icon-delete"></i>
@@ -46,7 +46,7 @@
   import { playMode } from '../../assets/js/config'
   import Confirm from 'base/confirm/confirm'
   import { playerMixin } from '../../assets/js/mixin'
-  import {mapActions} from 'vuex'
+  import { mapActions } from 'vuex'
   import AddSong from 'components/add-song/add-song'
   export default {
     name: 'playlist',
