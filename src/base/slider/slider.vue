@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-import { addClass } from '../../assets/js/dom'
+  import BScroll from 'better-scroll'
+  import {addClass} from '../../assets/js/dom'
 
-export default {
+  export default {
   props: {
     loop: {
       type: Boolean,
@@ -27,7 +27,7 @@ export default {
     },
     interval: {
       type: Number,
-      default: 4000
+      default: 1000
     }
   },
   data () {
@@ -93,11 +93,20 @@ export default {
           speed: 400
         }
       })
-      this.slider.on('scrollEnd', this._onScrollEnd())
+      this.slider.on('scrollEnd', this._onScrollEnd)
+      this.slider.on('touchend', () => {
+        if (this.autoPlay) {
+          this._play()
+        }
+      })
+      this.slider.on('beforeScrollStart', () => {
+        if (this.autoPlay) {
+          clearTimeout(this.timer)
+        }
+      })
     },
     _onScrollEnd () {
-      let pageIndeX = this.slider.getCurrentPage().pageX
-      this.currentPageIndex = pageIndeX
+      this.currentPageIndex = this.slider.getCurrentPage().pageX
       if (this.autoPlay) {
         this._play()
       }
