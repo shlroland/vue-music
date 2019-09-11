@@ -5,7 +5,7 @@
       </slot>
     </div>
     <div class="dots">
-            <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots"
+            <span class="dot" :class="{active: currentPageIndex === index }" v-for="index in dots"
                   :key="index"></span>
     </div>
   </div>
@@ -13,7 +13,7 @@
 
 <script>
   import BScroll from 'better-scroll'
-  import {addClass} from '../../assets/js/dom'
+  import { addClass } from '../../assets/js/dom'
 
   export default {
   props: {

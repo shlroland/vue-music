@@ -83,7 +83,7 @@
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
           <div class="imgWrapper" ref="miniWrapper">
-            <img ref="miniImage" width="40" height="40" :src="currentSong.image">
+            <img ref="miniImage" :class="cdCls" width="40" height="40" :src="currentSong.image">
           </div>
         </div>
         <div class="text">
@@ -101,7 +101,7 @@
       </div>
     </transition>
     <playlist ref="playlist"></playlist>
-    <audio ref="audio"  @canplay="ready" @error="error" @timeupdate="updateTime"
+    <audio ref="audio" @canplay="ready" @error="error" @timeupdate="updateTime"
            @ended="end"></audio>
   </div>
 </template>
@@ -320,7 +320,7 @@
       },
       getLyric () {
         this.currentSong.getLyric().then((lyric) => {
-          if (  this.currentSong.lyric !== lyric) {
+          if (this.currentSong.lyric !== lyric) {
             return
           }
           this.currentLyric = new Lyric(lyric, this.handleLyric)
@@ -405,6 +405,21 @@
         this.$refs.middleL.style[transitionDuration] = `${time}ms`
         this.touch.initiated = false
       },
+      /**
+       * 计算内层Image的transform，并同步到外层容器
+       * @param wrapper
+       * @param inner
+       */
+      syncWrapperTransform (wrapper, inner) {
+        if (!this.$refs[wrapper]) {
+          return
+        }
+        let imageWrapper = this.$refs[wrapper]
+        let image = this.$refs[inner]
+        let wTransform = getComputedStyle(imageWrapper)[transform]
+        let iTransform = getComputedStyle(image)[transform]
+        imageWrapper.style[transform] = wTransform === 'none' ? iTransform : iTransform.concat(' ', wTransform)
+      },
       ...mapActions([
         'savePlayHistory'
       ]),
@@ -450,8 +465,8 @@
         this.$refs.audio.play()
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
-            this.songReady = true
-          }, 5000)
+          this.songReady = true
+        }, 5000)
         this.getLyric()
       },
       playing (newPlaying) {
@@ -459,6 +474,11 @@
         this.$nextTick(() => {
           newPlaying ? audio.play() : audio.pause()
         })
+        if (!newPlaying) {
+          this.syncWrapperTransform('imageWrapper', 'image')
+        } else {
+          this.syncWrapperTransform('miniWrapper', 'miniImage')
+        }
       }
     }
   }
