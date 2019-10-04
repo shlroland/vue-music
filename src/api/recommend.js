@@ -33,7 +33,7 @@ export function getDiscList () {
   })
 }
 export function getSongList (disstid) {
-  const url = debug ? '/api/getCdInfo' : 'http://ustbhuangyi.com/music/api/getCdInfo'
+  const url = debug ? '/api/getCdInfo' : 'http://47.103.123.83/music/api/getCdInfo'
 
   const data = Object.assign({}, commonParams, {
     disstid,

@@ -101,6 +101,13 @@ module.exports = {
       })
     }
   },
+  configureWebpack: {
+    performance: {
+      hints: 'warning',
+      maxAssetSize: 524288,
+      maxEntrypointSize: 524288
+    }
+  },
   chainWebpack (config) {
     config.resolve.alias
       .set('components', resolve('src/components'))
