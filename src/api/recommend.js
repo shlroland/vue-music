@@ -14,7 +14,7 @@ export function getRecommend () {
   return jsonp(url, data, options)
 }
 export function getDiscList () {
-  const url = '/api/getDiscList'
+  const url = debug ? '/api/getDiscList' : 'http://47.103.123.83/music/api/getDiscList'
   const data = Object.assign({}, commonParams, {
     platform: 'yqq',
     hostUin: 0,
